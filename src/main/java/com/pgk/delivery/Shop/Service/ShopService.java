@@ -4,5 +4,13 @@ import com.pgk.delivery.Model.Result;
 import com.pgk.delivery.Shop.Pojo.Shop;
 
 public interface ShopService {
-    Result<?> queryAll();
+    Result<?> queryAll(int pageNum, int pageSize);
+
+    Result<?> queryById(int shopId);
+
+    Result<?> queryByName(String shopName, int pageNum, int pageSize);
+
+    Result<?> queryAllCommodity();
+
+    Result<?> delectCommodity(int commodityId);
 }

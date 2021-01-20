@@ -24,7 +24,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String token = request.getHeader("token");
-        System.out.println("token的值为"+token);
+
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -54,22 +54,20 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
                 return false;
             }
             //验证token是否过期
-            if (JWTUtil.verifyToken(token,accountName))
-            {
+            if (JWTUtil.verifyToken(token, accountName)) {
                 response.setStatus(ErrorCode.AUTH_ERROR.getValue());
                 return false;
             }
             int accountLimit = (JWTUtil.getClaimByName(token, "accountLimit").asInt());
-            String newToken = JWTUtil.createToken(accountName,accountLimit);
-            if(JWTUtil.checkTokenDate(token))
-            {
+            String newToken = JWTUtil.createToken(accountName, accountLimit);
+            if (JWTUtil.checkTokenDate(token)) {
 
-               response.setStatus(213);
-               response.addHeader("newToken",newToken);
-               response.addHeader("Access-Control-Expose-Headers","newToken");
+                response.setStatus(213);
+                response.addHeader("newToken", newToken);
+                response.addHeader("Access-Control-Expose-Headers", "newToken");
             }
-            request.setAttribute("accountLimit",accountLimit );
-            request.setAttribute("accountName",accountName);
+            request.setAttribute("accountLimit", accountLimit);
+            request.setAttribute("accountName", accountName);
             return true;
         }
         return true;

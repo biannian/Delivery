@@ -10,7 +10,7 @@ import java.util.List;
 public interface LoginMapper {
 
 
-    public Account login(String accountName,String accountPassword);
+    public Account login(String accountName, String accountPassword);
 
     public List<Account> queryById(String accountName);
 
@@ -19,4 +19,8 @@ public interface LoginMapper {
     public List<Account> queryAll();
 
     public int register(Account account);
+
+    int accountDelete(int accountId);
+
+    int accountEdit(Account account);
 }

@@ -12,6 +12,15 @@ public class Result<T> {
         return result;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+
     public static <T> Result<T> success(T result) {
         Result<T> res = new Result<>();
         res.code = 200;
@@ -19,9 +28,11 @@ public class Result<T> {
         res.result = result;
         return res;
     }
-    public static Result<?> success(){
+
+    public static Result<?> success() {
         return success(null);
     }
+
     public static <T> Result<T> fail(int code, String msg, T result) {
         Result<T> res = new Result<>();
         res.code = code;
@@ -29,15 +40,19 @@ public class Result<T> {
         res.result = result;
         return res;
     }
+
     public static <T> Result<T> fail() {
         return fail(-1);
     }
+
     public static <T> Result<T> fail(int code, String msg) {
         return fail(code, msg, null);
     }
+
     public static <T> Result<T> fail(int code) {
         return fail(code, "");
     }
+
     public static <T> Result<T> fail(ErrorCode errorCode, T result) {
         return fail(errorCode.getValue(), errorCode.getDesc(), result);
     }

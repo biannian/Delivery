@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class LoginService {
 
@@ -43,30 +44,52 @@ public class LoginService {
 
     public Result<?> login(String accountName, String accountPassword) {
 
-        Account account = mapper.login(accountName, Md5.EncoderByMd5(accountPassword) );
+        Account account = mapper.login(accountName, Md5.EncoderByMd5(accountPassword));
 
         if (account == null) {
             return Result.fail(ErrorCode.USERNAME_OR_PASSWORD_ERROR);
         } else {
-            String jwtToken = JWTUtil.createToken(accountName, account.getAccountLimit());
-            return Result.success(jwtToken);
+            if (account.getAccountBan() == 0) {
+                String jwtToken = JWTUtil.createToken(accountName, account.getAccountLimit());
+
+                return Result.success(jwtToken);
+            } else {
+                return Result.fail(ErrorCode.ACCOUNT_BAN);
+            }
         }
     }
 
     public Result<?> register(Account account) {
         account.setAccountPassword(Md5.EncoderByMd5(account.getAccountPassword()));
-        if ((Integer)account.getAccountLimit() == 0  )
-        {
-            return Result.fail(ErrorCode.REGISTER.getValue());
-        }else {
+        if ((Integer) account.getAccountLimit() == 0) {
+            return Result.fail(ErrorCode.REGISTER_ERRoR);
+        } else {
             int msg = mapper.register(account);
-            if (msg == 1){
+            if (msg == 1) {
                 String jwtToken = JWTUtil.createToken(account.getAccountName(), account.getAccountBan());
                 return Result.success(jwtToken);
-            }else {
-                return Result.fail(ErrorCode.REGISTER.getValue());
+            } else {
+                return Result.fail(ErrorCode.REGISTER_ERRoR);
             }
         }
 
+    }
+
+    public Result<?> accountDelete(int accountId) {
+        if (accountId > 0) {
+            int a = mapper.accountDelete(accountId);
+            if (a == 1) {
+                return Result.success();
+            }
+        }
+        return Result.fail(-1);
+    }
+
+    public Result<?> accountEdit(Account account) {
+        int a = mapper.accountEdit(account);
+        if (a > 0) {
+            return Result.success();
+        }
+        return Result.fail(-1);
     }
 }

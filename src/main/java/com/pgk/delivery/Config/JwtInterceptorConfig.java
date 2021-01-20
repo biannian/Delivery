@@ -13,8 +13,9 @@ public class JwtInterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(authenticationInterceptor())
                 .addPathPatterns("/**");
     }
+
     @Bean
-    public JwtAuthenticationInterceptor authenticationInterceptor(){
-            return new JwtAuthenticationInterceptor();
+    public JwtAuthenticationInterceptor authenticationInterceptor() {
+        return new JwtAuthenticationInterceptor();
     }
 }

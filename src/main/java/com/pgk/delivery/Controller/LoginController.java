@@ -2,15 +2,17 @@ package com.pgk.delivery.Controller;
 
 import com.pgk.delivery.Pojo.Account;
 import com.pgk.delivery.Service.LoginService;
-import com.pgk.delivery.Util.JWTUtil;
 import com.pgk.delivery.Util.PassToken;
 import com.pgk.delivery.Model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.DatagramSocket;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/Login")
@@ -21,36 +23,68 @@ public class LoginController {
 
     @PassToken
     @RequestMapping(value = "/login.do")
-    public Result<?> login(String accountName, String accountPassword){
-        System.out.println(accountName);
-        Result<?> result =service.login(accountName,accountPassword );
-            return result;
+    public Result<?> login(String accountName, String accountPassword) {
+        Result<?> result = service.login(accountName, accountPassword);
+
+        return result;
     }
+
     @PassToken
     @RequestMapping(value = "/queryById.do")
-    public  Result<?> queryById(String accountName){
+    public Result<?> queryById(String accountName) {
         Result<?> account = service.queryById(accountName);
         return account;
     }
-    @RequestMapping(value = "/queryAll.do")
-    public Result<?> queryAll(HttpServletRequest req){
-        System.out.println(req.getHeader("token"));
-        Result<?> account = service.queryAll();
 
-        System.out.println(account.getResult());
-        return account;
+    @PassToken
+    @RequestMapping(value = "/queryAll.do")
+    public Result<?> queryAll(HttpServletRequest req) {
+        Result<?> result = service.queryAll();
+        return result;
     }
 
-    @RequestMapping(value = "/checkToken.do")
-    public Result<?> checkToken(HttpServletRequest req) {
-        return Result.success(200);
+    @RequestMapping(value = "/getLimit.do")
+    public Result<?> getLimit(HttpServletRequest req) {
+        int accountLimit = (int) req.getAttribute("accountLimit");
+        String accountName = (String) req.getAttribute("accountName");
+        Map map = new HashMap();
+        map.put("accountLimit", accountLimit);
+        map.put("accountName", accountName);
+        return Result.success(map);
+    }
+
+    @RequestMapping(value = "/accountDelete.do")
+    public Result<?> accountDelete(HttpServletRequest req, int accountId, HttpServletResponse response) {
+        int accountLimit = (int) req.getAttribute("accountLimit");
+        if (accountLimit == 4) {
+            Result<?> result = service.accountDelete(accountId);
+            if (result.getCode() == -1) {
+                response.setStatus(500);
+                return null;
+            }
+            return Result.success();
+        }
+        return Result.fail(-1);
+    }
+
+    @RequestMapping(value = "/accountEdit.do")
+    public Result<?> accountEdit(HttpServletRequest req, Account account, HttpServletResponse response) {
+        int accountLimit = (int) req.getAttribute("accountLimit");
+        if (accountLimit == 4) {
+            Result<?> result = service.accountEdit(account);
+            if (result.getCode() == -1) {
+                response.setStatus(500);
+                return null;
+            }
+            return Result.success();
+        }
+        return Result.fail(-1);
     }
 
     @PassToken
     @RequestMapping(value = "/register.do")
-    public Result<?> register(Account account){
+    public Result<?> register(Account account) {
         Result<?> msg = service.register(account);
         return msg;
     }
-
 }

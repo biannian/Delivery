@@ -14,17 +14,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class JWTUtil {
-    public static String createToken(String accountName,int accountLimit) {
+    public static String createToken(String accountName, int accountLimit) {
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE, 6);
+        nowTime.add(Calendar.MINUTE, 30);
         Date expiresDate = nowTime.getTime();
-        System.out.println("expiresDate"+expiresDate);
-        System.out.println("date"+new Date());
         return JWT.create().withAudience(accountName)
                 .withIssuedAt(new Date())
                 .withExpiresAt(expiresDate)
                 .withClaim("accountLimit", accountLimit)
-                .sign(Algorithm.HMAC256(accountName+"Hellosiri"));
+                .sign(Algorithm.HMAC256(accountName + "Hellosiri"));
     }
 
     /**
@@ -35,15 +33,15 @@ public class JWTUtil {
     public static boolean verifyToken(String token, String secret) {
         DecodedJWT jwt = null;
         try {
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret+"Hellosiri")).build();
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret + "Hellosiri")).build();
             jwt = verifier.verify(token);
         } catch (TokenExpiredException e) {
             System.out.println("token已过期");
             return true;
-        } catch (SignatureVerificationException e){
+        } catch (SignatureVerificationException e) {
             System.out.println("token错误");
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return true;
         }
@@ -60,12 +58,13 @@ public class JWTUtil {
         Calendar nowDate = Calendar.getInstance();
         nowDate.add(Calendar.MINUTE, 5);
         Date nowDate1 = nowDate.getTime();
-        if(new Date().before(expiresDate) && nowDate1.after(expiresDate)){
+        if (new Date().before(expiresDate) && nowDate1.after(expiresDate)) {
             System.out.println("token还有不到5分钟过期");
             return true;
         }
         return false;
     }
+
     /**
      * 获取签发对象
      */
@@ -79,7 +78,6 @@ public class JWTUtil {
         return audience;
 
     }
-
 
 
     /**

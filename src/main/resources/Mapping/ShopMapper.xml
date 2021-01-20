@@ -1,8 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pgk.delivery.Shop.Mapper.ShopMapper">
+    <resultMap id="shopMap" type="com.pgk.delivery.Shop.Pojo.Shop">
+        <id column="shopId" property="shopId"/>
+        <result column="shopName" property="shopName"/>
+        <result column="shopImg" property="shopImg"/>
+        <result column="shopSellerId" property="shopSellerId"/>
+        <result column="shopAddress" property="shopAddress"/>
+        <result column="shopStartPrice" property="shopStartPrice"/>
+        <result column="shopSendPrice" property="shopSendPrice"/>
+        <result column="shopSalesVolume" property="shopSalesVolume"/>
+        <result column="shopScore" property="shopScore"/>
+        <collection property="commodity" ofType="com.pgk.delivery.Shop.Pojo.Commodity">
+            <id column="commodityId" property="commodityId"/>
+            <result column="commodityShopId" property="commodityShopId"/>
+            <result column="commodityName" property="commodityName"/>
+            <result column="commodityNumber" property="commodityNumber"/>
+            <result column="commodityPrice" property="commodityPrice"/>
+            <result column="commodityImg" property="commodityImg"/>
+            <result column="commodityMenuId" property="commodityMenuId"/>
+            <result column="shopMenuId" property="shopMenuId"/>
+            <result column="shopMenuName" property="shopMenuName"/>
+        </collection>
+    </resultMap>
+    <delete id="delectCommodity">
+        delete from commodity where commodityId = #{commodityId}
+
+    </delete>
     <select id="queryAll" resultType="com.pgk.delivery.Shop.Pojo.Shop">
-    select shopName,shopImg,shopSellerId,shopAddress,shopStartPrice,shopSendPrice,shopSalesVolume,shopCommodity
-    from shop
+        SELECT
+        shopId,
+        shopName,
+        shopImg,
+        shopSellerId,
+        shopAddress,
+        shopStartPrice,
+        shopSendPrice,
+        shopSalesVolume,
+        shopScore
+        FROM
+        shop
+    </select>
+    <select id="queryById" resultMap="shopMap">
+        SELECT
+        shop.shopId,
+        shop.shopName,
+        shop.shopImg,
+        shop.shopSellerId,
+        shop.shopAddress,
+        shop.shopStartPrice,
+        shop.shopSendPrice,
+        shop.shopSalesVolume,
+        shop.shopScore,
+        commodity.commodityId,
+        commodity.commodityName,
+        commodity.commodityNumber,
+        commodity.commodityPrice,
+        commodity.commodityImg,
+        commodity.commodityShopId,
+        commodity.commodityMenuId,
+        shopmenu.shopMenuId,
+        shopmenu.shopMenuName
+        FROM
+        shop
+        INNER JOIN commodity ON shop.shopId = commodity.commodityShopId
+        INNER JOIN shopmenu ON commodity.commodityMenuId = shopmenu.shopMenuId
+        WHERE
+        shopId =#{shopId}
+    </select>
+    <select id="queryByName" resultType="com.pgk.delivery.Shop.Pojo.Shop">
+        SELECT
+        shopId,
+        shopName,
+        shopImg,
+        shopSellerId,
+        shopAddress,
+        shopStartPrice,
+        shopSendPrice,
+        shopSalesVolume,
+        shopScore
+        FROM
+        shop
+        WHERE
+        shopName LIKE "%" #{shopName}"%"
+    </select>
+    <select id="queryAllCommodity" resultType="com.pgk.delivery.Shop.Pojo.Commodity">
+        SELECT
+        commodityId,
+        commodityName,
+        commodityNumber,
+        commodityPrice,
+        commodityImg,
+        commodityShopId,
+        commodityMenuId
+        FROM
+        commodity
     </select>
 </mapper>

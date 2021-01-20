@@ -1,20 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pgk.delivery.Mapper.LoginMapper">
-    <select id="login"  parameterType="com.pgk.delivery.Pojo.Account" resultType="com.pgk.delivery.Pojo.Account">
-        select accountName, accountPassword, accountLimit, accountBan from account where accountName = #{accountName} and accountPassword = #{accountPassword}
+    <update id="accountEdit">
+        UPDATE account
+        SET accountBan = #{accountBan}
+        WHERE
+        accountId = #{accountId}
+    </update>
+    <delete id="accountDelete">
+        delete from account where accountId = #{accountId}
+    </delete>
+    <select id="login" parameterType="com.pgk.delivery.Pojo.Account" resultType="com.pgk.delivery.Pojo.Account">
+        SELECT
+        accountName,
+        accountPassword,
+        accountLimit,
+        accountBan
+        FROM
+        account
+        WHERE
+        accountName = #{accountName} and accountPassword = #{accountPassword}
     </select>
     <select id="queryById" resultType="com.pgk.delivery.Pojo.Account">
-        select * from account where accountName = #{accountName}
+        select * from account where accountName= #{accountName}
     </select>
     <select id="queryByName" resultType="com.pgk.delivery.Pojo.Account">
-          select * from account where accountName = #{accountName}
+        select * from account where accountName = #{accountName}
     </select>
     <select id="queryAll" resultType="com.pgk.delivery.Pojo.Account">
-          select * from account
+        SELECT
+        accountName,
+        accountPassword,
+        accountLimit,
+        accountBan,
+        accountId
+        FROM
+        account
     </select>
     <insert id="register" parameterType="com.pgk.delivery.Pojo.Account">
-           insert into account (accountId,accountName,accountPassword,accountLimit,accountBan)
-values (NULL,#{accountName},#{accountPassword},#{accountLimit},#{accountBan})
+        INSERT INTO account (
+        accountId,
+        accountName,
+        accountPassword,
+        accountLimit,
+        accountBan
+        )
+        VALUES
+        (
+        NULL,
+        #{accountName},#{accountPassword},#{accountLimit},#{accountBan})
     </insert>
 </mapper>

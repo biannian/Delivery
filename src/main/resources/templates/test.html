@@ -8,32 +8,32 @@
 </head>
 <body>
 <div id="app" class="app">
-{{message}}
+    {{message}}
 
-<div v-if = "type === 'A' ">A</div>
-<div v-if = "type === 'B' ">B</div>
-<div v-if = "type === 'C' ">C</div>
+    <div v-if="type === 'A' ">A</div>
+    <div v-if="type === 'B' ">B</div>
+    <div v-if="type === 'C' ">C</div>
 
-<input type="text" v-model="type">
-   <select v-model="type">
-       <option value="A">A</option>
-       <option value="B">B</option>
-       <option value="C">C</option>
-   </select>
-    <p v-if="type =='B'" >如果为B我将出现</p>
-   <br> <input type="button" value="test">
+    <input type="text" v-model="type">
+    <select v-model="type">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+    </select>
+    <p v-if="type =='B'">如果为B我将出现</p>
+    <br> <input type="button" value="test">
 </div>
 <script>
     var app = new Vue({
-        el:'#app',
-        data:{
+        el: '#app',
+        data: {
             message: 'this is test',
             type: ''
         }
     })
 </script>
 <style>
-    .app{
+    .app {
         margin-left: 500px;
         margin-top: 200px;
     }

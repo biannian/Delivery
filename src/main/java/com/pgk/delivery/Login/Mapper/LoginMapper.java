@@ -1,8 +1,7 @@
-package com.pgk.delivery.Mapper;
+package com.pgk.delivery.Login.Mapper;
 
-import com.pgk.delivery.Pojo.Account;
+import com.pgk.delivery.Login.Pojo.Account;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

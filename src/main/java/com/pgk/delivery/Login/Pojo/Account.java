@@ -1,4 +1,4 @@
-package com.pgk.delivery.Pojo;
+package com.pgk.delivery.Login.Pojo;
 
 import lombok.Data;
 

@@ -1,9 +1,8 @@
 package com.pgk.delivery.Interceptor;
 
-import com.auth0.jwt.JWT;
 import com.pgk.delivery.Model.ErrorCode;
-import com.pgk.delivery.Pojo.Account;
-import com.pgk.delivery.Service.LoginService;
+import com.pgk.delivery.Login.Pojo.Account;
+import com.pgk.delivery.Login.Service.LoginService;
 import com.pgk.delivery.Util.JWTUtil;
 import com.pgk.delivery.Util.PassToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
@@ -59,13 +57,13 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
                 return false;
             }
             int accountLimit = (JWTUtil.getClaimByName(token, "accountLimit").asInt());
-            String newToken = JWTUtil.createToken(accountName, accountLimit);
             if (JWTUtil.checkTokenDate(token)) {
-
+                String newToken = JWTUtil.createToken(accountName, accountLimit);
                 response.setStatus(213);
                 response.addHeader("newToken", newToken);
                 response.addHeader("Access-Control-Expose-Headers", "newToken");
             }
+
             request.setAttribute("accountLimit", accountLimit);
             request.setAttribute("accountName", accountName);
             return true;

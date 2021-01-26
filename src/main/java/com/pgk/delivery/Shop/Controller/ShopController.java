@@ -1,13 +1,9 @@
 package com.pgk.delivery.Shop.Controller;
 
 import com.pgk.delivery.Model.Result;
-import com.pgk.delivery.Service.LoginService;
-import com.pgk.delivery.Shop.Pojo.Shop;
 import com.pgk.delivery.Shop.Service.ShopService;
-import com.pgk.delivery.Util.PassToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +19,7 @@ public class ShopController {
     @RequestMapping("/queryAll.do")
     public Result<?> queryAll(int pageNum, int pageSize, HttpServletRequest request, HttpServletResponse response) {
         int accountLimit = (int) request.getAttribute("accountLimit");
+
         if (accountLimit == 1) {
             Result<?> shops = service.queryAll(pageNum, pageSize);
             return shops;

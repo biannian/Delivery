@@ -1,9 +1,9 @@
-package com.pgk.delivery.Service;
+package com.pgk.delivery.Login.Service;
 
 import com.pgk.delivery.Config.Md5;
-import com.pgk.delivery.Mapper.LoginMapper;
+import com.pgk.delivery.Login.Mapper.LoginMapper;
 import com.pgk.delivery.Model.ErrorCode;
-import com.pgk.delivery.Pojo.Account;
+import com.pgk.delivery.Login.Pojo.Account;
 import com.pgk.delivery.Util.JWTUtil;
 import com.pgk.delivery.Model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +66,7 @@ public class LoginService {
         } else {
             int msg = mapper.register(account);
             if (msg == 1) {
-                String jwtToken = JWTUtil.createToken(account.getAccountName(), account.getAccountBan());
+                String jwtToken = JWTUtil.createToken(account.getAccountName(), account.getAccountLimit());
                 return Result.success(jwtToken);
             } else {
                 return Result.fail(ErrorCode.REGISTER_ERRoR);

@@ -25,7 +25,6 @@
     </resultMap>
     <delete id="delectCommodity">
         delete from commodity where commodityId = #{commodityId}
-
     </delete>
     <select id="queryAll" resultType="com.pgk.delivery.Shop.Pojo.Shop">
         SELECT

@@ -45,8 +45,10 @@ public class LoginController {
     @RequestMapping(value = "/getLimit.do")
     public Result<?> getLimit(HttpServletRequest req) {
         int accountLimit = (int) req.getAttribute("accountLimit");
+        int accountUserId = (int) req.getAttribute("accountUserId");
         String accountName = (String) req.getAttribute("accountName");
         Map map = new HashMap();
+        map.put("accountUserId",accountUserId);
         map.put("accountLimit", accountLimit);
         map.put("accountName", accountName);
         return Result.success(map);

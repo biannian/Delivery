@@ -9,17 +9,21 @@ import java.util.List;
 public interface LoginMapper {
 
 
-    public Account login(String accountName, String accountPassword);
+     Account login(String accountName, String accountPassword);
 
-    public List<Account> queryById(String accountName);
+     List<Account> queryById(String accountName);
 
-    public Account queryByName(String accountName);
+     Account queryByName(String accountName);
 
-    public List<Account> queryAll();
+     List<Account> queryAll();
 
-    public int register(Account account);
+     int register(Account account);
 
     int accountDelete(int accountId);
 
     int accountEdit(Account account);
+
+    int addInformation (Account account);
+
+    int selectUserId(Account account);
 }

@@ -15,7 +15,8 @@
         accountName,
         accountPassword,
         accountLimit,
-        accountBan
+        accountBan,
+        accountUserId
         FROM
         account
         WHERE
@@ -43,11 +44,20 @@
         accountName,
         accountPassword,
         accountLimit,
-        accountBan
+        accountBan,
+        accountUserId
         )
         VALUES
         (
         NULL,
-        #{accountName},#{accountPassword},#{accountLimit},#{accountBan})
+        #{accountName},#{accountPassword},#{accountLimit},#{accountBan},#{accountUserId})
     </insert>
+    <insert id="addInformation" parameterType="com.pgk.delivery.Login.Pojo.Account">
+        insert into ${table} (${tableId},${tableAccountName}) values (null,#{accountName})
+
+    </insert>
+    <select id="selectUserId" parameterType="com.pgk.delivery.Login.Pojo.Account"  resultType="java.lang.Integer">
+        select ${tableId} from ${table} where ${tableAccountName} = #{accountName}
+
+    </select>
 </mapper>

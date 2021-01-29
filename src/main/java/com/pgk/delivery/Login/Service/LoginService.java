@@ -45,12 +45,12 @@ public class LoginService {
     public Result<?> login(String accountName, String accountPassword) {
 
         Account account = mapper.login(accountName, Md5.EncoderByMd5(accountPassword));
-
+        System.out.println(account);
         if (account == null) {
             return Result.fail(ErrorCode.USERNAME_OR_PASSWORD_ERROR);
         } else {
             if (account.getAccountBan() == 0) {
-                String jwtToken = JWTUtil.createToken(accountName, account.getAccountLimit());
+                String jwtToken = JWTUtil.createToken(accountName, account.getAccountLimit(),account.getAccountUserId());
 
                 return Result.success(jwtToken);
             } else {
@@ -61,12 +61,35 @@ public class LoginService {
 
     public Result<?> register(Account account) {
         account.setAccountPassword(Md5.EncoderByMd5(account.getAccountPassword()));
-        if ((Integer) account.getAccountLimit() == 0) {
+        if (account.getAccountLimit() == 0) {
             return Result.fail(ErrorCode.REGISTER_ERRoR);
         } else {
+            switch (account.getAccountLimit()){
+                case 1:
+                    account.setTable("buyer");
+                    account.setTableId("buyerId");
+                    account.setTableAccountName("buyerAccountName");
+                    break;
+                case 2:
+                    account.setTable("seller");
+                    account.setTableId("sellerId");
+                    account.setTableAccountName("sellerAccountName");
+                    break;
+                case 3:
+                    account.setTable("rider");
+                    account.setTableId("riderId");
+                    account.setTableAccountName("riderAccountName");
+                    break;
+            }
+            mapper.addInformation(account);
+
+            int userId = mapper.selectUserId(account);
+
+            account.setAccountUserId(userId);
+
             int msg = mapper.register(account);
             if (msg == 1) {
-                String jwtToken = JWTUtil.createToken(account.getAccountName(), account.getAccountLimit());
+                String jwtToken = JWTUtil.createToken(account.getAccountName(), account.getAccountLimit(),account.getAccountUserId());
                 return Result.success(jwtToken);
             } else {
                 return Result.fail(ErrorCode.REGISTER_ERRoR);

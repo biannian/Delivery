@@ -57,13 +57,14 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
                 return false;
             }
             int accountLimit = (JWTUtil.getClaimByName(token, "accountLimit").asInt());
+            int accountUserId = (JWTUtil.getClaimByName(token, "accountUserId").asInt());
             if (JWTUtil.checkTokenDate(token)) {
-                String newToken = JWTUtil.createToken(accountName, accountLimit);
+                String newToken = JWTUtil.createToken(accountName, accountLimit,accountUserId);
                 response.setStatus(213);
                 response.addHeader("newToken", newToken);
                 response.addHeader("Access-Control-Expose-Headers", "newToken");
             }
-
+            request.setAttribute("accountUserId", accountUserId);
             request.setAttribute("accountLimit", accountLimit);
             request.setAttribute("accountName", accountName);
             return true;

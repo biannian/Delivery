@@ -9,6 +9,8 @@ public class Account {
     private int accountLimit;
     private int accountBan;
     private int accountId;
-
-
+    private int accountUserId;
+    private String table;
+    private String tableId;
+    private String tableAccountName;
 }

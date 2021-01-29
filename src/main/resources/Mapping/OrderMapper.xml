@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pgk.delivery.Order.Mapper.OrderMapper">
-    <insert id="addOrder" parameterType="com.pgk.delivery.Order.Pojo.Order">
 
 
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="orderId" keyColumn="orderId" parameterType="com.pgk.delivery.Order.Pojo.Order">
 INSERT INTO `order` (
-	orderId,
+	shopId,
 	orderBuyerId,
 	orderSellerId,
 	orderRiderId,
@@ -15,7 +15,44 @@ INSERT INTO `order` (
 	orderRiderTime
 )
 VALUES
-	('', #{orderBuyerId}, #{orderSellerId}, #{orderRiderId},#{orderState},#{orderBuyerTime},#{orderSellerTime},#{orderRiderTime})
-
+	(#{shopId}, #{orderBuyerId}, #{orderSellerId}, #{orderRiderId},#{orderState},#{orderBuyerTime},#{orderSellerTime},#{orderRiderTime})
     </insert>
+	<insert id="addShopping" parameterType="com.pgk.delivery.Order.Pojo.Shopping">
+		INSERT INTO shopping (
+	shoppingCommodityId,
+	shoppingNumber,
+	shoppingOrderId
+)
+VALUES
+	(#{commodityId},#{a},#{shoppingOrderId})
+	</insert>
+	<update id="deleteCommodityNumber" parameterType="com.pgk.delivery.Order.Pojo.Shopping">
+	update commodity set commodityNumber=#{commodityNumber} where commodityId = #{commodityId}
+	</update>
+	<select id="selectOrder" resultType="com.pgk.delivery.Order.Pojo.Order">
+	SELECT
+	orderId,
+	shopId,
+	orderBuyerId,
+	orderSellerId,
+	orderRiderId,
+	orderState,
+    orderBuyerTime,
+	orderSellerTime,
+	orderRiderTime
+FROM
+	`order`
+WHERE
+	orderBuyerId = #{orderBuyerId}
+	</select>
+	<select id="selectShopping" resultType="com.pgk.delivery.Order.Pojo.Shopping">
+		select
+		shoppingCommodityId,
+    	shoppingNumber,
+    	shoppingOrderId
+    	from
+    	shopping
+    	where
+    	shoppingOrderId = #{shoppingOrderId}
+	</select>
 </mapper>

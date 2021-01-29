@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class JWTUtil {
-    public static String createToken(String accountName, int accountLimit) {
+    public static String createToken(String accountName, int accountLimit , int accountUserId) {
         Calendar nowTime = Calendar.getInstance();
         nowTime.add(Calendar.MINUTE, 30);
         Date expiresDate = nowTime.getTime();
@@ -22,6 +22,7 @@ public class JWTUtil {
                 .withIssuedAt(new Date())
                 .withExpiresAt(expiresDate)
                 .withClaim("accountLimit", accountLimit)
+                .withClaim("accountUserId", accountUserId)
                 .sign(Algorithm.HMAC256(accountName + "Hellosiri"));
     }
 

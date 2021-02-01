@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,14 +44,6 @@ public class OrderService implements com.pgk.delivery.Order.Service.OrderService
         HashMap<String, Object> orderMap = new HashMap<>();
             orderMap.put("shoppings",shoppings);
             orderMap.put("orders",orders);
-//        HashMap<Integer, List<Order>> orderMap = new HashMap<>();
-//        for (int i = 0; i <orders.size() ; i++) {
-//            List<Order> list = orderMap.get(orders.get(i).getOrderId());
-//            if (list == null)
-//                list = new ArrayList<>();
-//            list.add(orders.get(i));
-//            orderMap.put(orders.get(i).getOrderId(),list) ;
-//        }
         return Result.success(orderMap);
     }
 }

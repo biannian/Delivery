@@ -54,10 +54,8 @@
     </insert>
     <insert id="addInformation" parameterType="com.pgk.delivery.Login.Pojo.Account">
         insert into ${table} (${tableId},${tableAccountName}) values (null,#{accountName})
-
     </insert>
     <select id="selectUserId" parameterType="com.pgk.delivery.Login.Pojo.Account"  resultType="java.lang.Integer">
         select ${tableId} from ${table} where ${tableAccountName} = #{accountName}
-
     </select>
 </mapper>

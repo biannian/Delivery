@@ -30,9 +30,14 @@ public class LoginController {
 
     @PassToken
     @RequestMapping(value = "/queryById.do")
-    public Result<?> queryById(String accountName) {
+    public boolean queryById(String accountName) {
         Result<?> account = service.queryById(accountName);
-        return account;
+        if (account.getCode() == 200){
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
     @PassToken

@@ -23,7 +23,7 @@ public class LoginService {
         List<Account> accounts = mapper.queryById(accountName);
 
         if (accounts != null && accounts.size() == 0) {
-            return Result.fail(-1, "查询失败");
+            return Result.fail(-1);
         } else {
             return Result.success(accounts);
         }

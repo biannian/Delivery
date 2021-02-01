@@ -24,7 +24,7 @@ VALUES
 	shoppingOrderId
 )
 VALUES
-	(#{commodityId},#{a},#{shoppingOrderId})
+	(#{shoppingCommodityId},#{a},#{shoppingOrderId})
 	</insert>
 	<update id="deleteCommodityNumber" parameterType="com.pgk.delivery.Order.Pojo.Shopping">
 	update commodity set commodityNumber=#{commodityNumber} where commodityId = #{commodityId}
@@ -45,14 +45,17 @@ FROM
 WHERE
 	orderBuyerId = #{orderBuyerId}
 	</select>
-	<select id="selectShopping" resultType="com.pgk.delivery.Order.Pojo.Shopping">
-		select
-		shoppingCommodityId,
-    	shoppingNumber,
-    	shoppingOrderId
-    	from
-    	shopping
-    	where
-    	shoppingOrderId = #{shoppingOrderId}
+	<select id="selectShopping" parameterType="java.lang.Integer" resultType="com.pgk.delivery.Order.Pojo.Shopping">
+SELECT
+	shoppingCommodityId,
+	shoppingNumber,
+	shoppingOrderId,
+	commodity.commodityName,
+	commodity.commodityImg,
+	commodity.commodityPrice
+FROM
+	shopping JOIN commodity ON shopping.shoppingCommodityId = commodity.commodityId
+WHERE
+	shoppingOrderId = #{shoppingOrderId}
 	</select>
 </mapper>

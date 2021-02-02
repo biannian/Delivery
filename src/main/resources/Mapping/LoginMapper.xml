@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pgk.delivery.Login.Mapper.LoginMapper">
-    <update id="accountEdit">
+    <update id="accountEdit" parameterType="com.pgk.delivery.Login.Pojo.Account">
         UPDATE account
         SET accountBan = #{accountBan}
         WHERE
         accountId = #{accountId}
+    </update>
+    <update id="updatePassword" parameterType="com.pgk.delivery.Login.Pojo.Account">
+UPDATE account
+SET accountPassword =#{accountPassword}
+WHERE
+	accountName =#{accountName}
     </update>
     <delete id="accountDelete">
         delete from account where accountId = #{accountId}
@@ -26,7 +32,7 @@
         select * from account where accountName= #{accountName}
     </select>
     <select id="queryByName" resultType="com.pgk.delivery.Login.Pojo.Account">
-        select * from account where accountName = #{accountName}
+        select accountName from account where accountName = #{accountName}
     </select>
     <select id="queryAll" resultType="com.pgk.delivery.Login.Pojo.Account">
         SELECT

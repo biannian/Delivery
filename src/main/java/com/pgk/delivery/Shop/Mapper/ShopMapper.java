@@ -11,6 +11,7 @@ public interface ShopMapper {
     List<Shop> queryAll();
 
     Shop queryById(int shopId);
+    String queryForName(int shopId);
 
     List<Shop> queryByName(String shopName);
 

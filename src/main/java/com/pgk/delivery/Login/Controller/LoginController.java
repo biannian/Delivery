@@ -37,7 +37,6 @@ public class LoginController {
         }else {
             return false;
         }
-
     }
 
     @PassToken
@@ -92,5 +91,16 @@ public class LoginController {
     public Result<?> register(Account account) {
         Result<?> msg = service.register(account);
         return msg;
+    }
+
+    @RequestMapping(value = "/queryByName.do")
+    public Result<?> queryByName(String accountName) {
+        Account account = service.queryByName(accountName);
+        return Result.success(account);
+    }
+    @RequestMapping(value = "/updatePassword.do")
+    public Result<?> updatePassword(Account account) {
+        int msg = service.updatePassword(account);
+        return Result.success(msg);
     }
 }

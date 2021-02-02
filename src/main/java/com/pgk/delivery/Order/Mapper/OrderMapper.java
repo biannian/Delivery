@@ -9,13 +9,44 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-   int addOrder(Order order);
 
-   int addShopping(Shopping shopping);
+    /**
+     * 新增订单表
+     *
+     * @param order
+     * @return
+     */
+    int addOrder(Order order);
 
-   int deleteCommodityNumber(Shopping shopping);
+    /**
+     * 新增订单中间表数据
+     *
+     * @param shopping
+     * @return
+     */
+    int addShopping(Shopping shopping);
 
-   List<Order> selectOrder(String orderBuyerId);
+    /**
+     * 删除商品库存
+     *
+     * @param shopping
+     * @return
+     */
+    int deleteCommodityNumber(Shopping shopping);
 
-   List<Shopping> selectShopping(int shoppingOrderId);
+    /**
+     * 查询订单
+     *
+     * @param orderBuyerId
+     * @return
+     */
+    List<Order> selectOrder(String orderBuyerId);
+
+    /**
+     * 根据订单编号查询购买的商品
+     *
+     * @param shoppingOrderId
+     * @return
+     */
+    List<Shopping> selectShopping(int shoppingOrderId);
 }

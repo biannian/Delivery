@@ -95,4 +95,9 @@
         FROM
         commodity
     </select>
+    <select id="queryForName" resultType="java.lang.String">
+           SELECT shopName from shop WHERE
+        shopId =  #{shopId}
+    </select>
+
 </mapper>

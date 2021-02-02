@@ -115,4 +115,10 @@ public class LoginService {
         }
         return Result.fail(-1);
     }
+
+    public int updatePassword(Account account) {
+        account.setAccountPassword(Md5.EncoderByMd5(account.getAccountPassword()));
+        int msg = mapper.updatePassword(account);
+        return msg;
+    }
 }

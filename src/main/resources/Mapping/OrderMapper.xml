@@ -7,7 +7,6 @@
 		<result column="shoppingNumber" property="commodityNumber"></result>
 		<result column="shoppingCommodityId" property="commodityId"></result>
 	</resultMap>
-
     <insert id="addOrder" useGeneratedKeys="true" keyProperty="orderId" keyColumn="orderId" parameterType="com.pgk.delivery.Order.Pojo.Order">
 INSERT INTO `order` (
 	shopId,
@@ -34,6 +33,12 @@ VALUES
 	<update id="deleteCommodityNumber" parameterType="com.pgk.delivery.Order.Pojo.Shopping">
 	update commodity set commodityNumber=#{commodityNumber} where commodityId = #{commodityId}
 	</update>
+	<delete id="deleteOrder">
+		  delete from `order` where orderId = #{orderId}
+	</delete>
+	<delete id="delectShopping">
+        delete from shopping where shoppingOrderId = #{orderId}
+    </delete>
 	<select id="selectOrder" resultType="com.pgk.delivery.Order.Pojo.Order">
 	SELECT
 	orderId,
@@ -63,4 +68,7 @@ FROM
 WHERE
 	shoppingOrderId = #{shoppingOrderId}
 	</select>
+	<update id="updateState" parameterType="com.pgk.delivery.Order.Pojo.Order">
+	update `order` set orderState=#{orderState} where orderId = #{orderId}
+	</update>
 </mapper>

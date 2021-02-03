@@ -26,6 +26,7 @@
     <delete id="delectCommodity">
         delete from commodity where commodityId = #{commodityId}
     </delete>
+
     <select id="queryAll" resultType="com.pgk.delivery.Shop.Pojo.Shop">
         SELECT
         shopId,
@@ -94,6 +95,19 @@
         commodityMenuId
         FROM
         commodity
+    </select>
+    <select id="queryCommodityById" resultType="com.pgk.delivery.Shop.Pojo.Commodity">
+        SELECT
+        commodityId,
+        commodityName,
+        commodityNumber,
+        commodityPrice,
+        commodityImg,
+        commodityShopId,
+        commodityMenuId
+        FROM
+        commodity
+        where commodityId = #{commodityId}
     </select>
     <select id="queryForName" resultType="java.lang.String">
            SELECT shopName from shop WHERE

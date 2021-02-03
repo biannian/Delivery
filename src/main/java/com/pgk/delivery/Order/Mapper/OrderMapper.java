@@ -49,4 +49,24 @@ public interface OrderMapper {
      * @return
      */
     List<Shopping> selectShopping(int shoppingOrderId);
+
+    /**
+     * 修改订单状态
+     * @param order
+     * @return
+     */
+    int updateState(Order order);
+
+    /**
+     * 根据订单id去删除订单表数据
+     * @param orderId
+     * @return
+     */
+    int deleteOrder(int orderId);
+    /**
+     * 根据订单ID 去中间表shpping中删除数据
+     * @param orderId
+     * @return
+     */
+    int delectShopping(int orderId);
 }

@@ -25,4 +25,14 @@ public class OrderController {
         Result<?> msg = service.selectOrder(orderBuyerId);
         return msg;
     }
+    @RequestMapping("/updateState.do")
+    public Result<?> updateState(@RequestBody Order order){
+        Result<?> msg = service.updateState(order);
+        return msg;
+    }
+    @RequestMapping("/deleteOrder.do")
+    public Result<?> deleteOrder(int orderId){
+        Result<?> msg = service.deleteOrder(orderId);
+        return msg;
+    }
 }

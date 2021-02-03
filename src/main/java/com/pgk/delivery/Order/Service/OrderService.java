@@ -8,4 +8,8 @@ public interface OrderService {
     Result<?> addOrder(Order order);
 
     Result<?> selectOrder(String orderBuyerId);
+
+    Result<?> updateState(Order order);
+
+    Result<?> deleteOrder(int orderId);
 }

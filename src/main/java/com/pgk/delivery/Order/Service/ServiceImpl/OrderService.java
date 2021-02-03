@@ -5,14 +5,13 @@ import com.pgk.delivery.Order.Mapper.OrderMapper;
 import com.pgk.delivery.Order.Pojo.Order;
 import com.pgk.delivery.Order.Pojo.Shopping;
 import com.pgk.delivery.Shop.Mapper.ShopMapper;
-import com.pgk.delivery.Shop.Pojo.Shop;
+import com.pgk.delivery.Shop.Pojo.Commodity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -47,11 +46,11 @@ public class OrderService implements com.pgk.delivery.Order.Service.OrderService
         List<Order> orders = mapper.selectOrder(orderBuyerId);
 
         List<List<Shopping>> shoppings = new ArrayList<>();
-        HashMap<Integer,String> shops  = new HashMap<>();
+        HashMap<Integer, String> shops = new HashMap<>();
 
         for (int i = 0; i < orders.size(); i++) {
             //根据订单中的店铺编号查询店铺信息
-            shops.put(orders.get(i).getShopId(),shopMapper.queryForName(orders.get(i).getShopId()));
+            shops.put(orders.get(i).getShopId(), shopMapper.queryForName(orders.get(i).getShopId()));
             //根据订单编号去查询中间表中的商品
             shoppings.add(mapper.selectShopping(orders.get(i).getOrderId()));
         }
@@ -60,5 +59,34 @@ public class OrderService implements com.pgk.delivery.Order.Service.OrderService
         orderMap.put("orders", orders);
         orderMap.put("shops", shops);
         return Result.success(orderMap);
+    }
+    @Override
+    public Result<?> updateState(Order order) {
+        if (order.getShopping() == null) {
+            int msg = mapper.updateState(order);
+            return Result.success(msg);
+        } else {
+            int msg = 0;
+            mapper.updateState(order);
+            //根据订单中的商品数量进行循环，先去数据库中查询出商品库存，然后将前端传来的数量加上库存存入数据库中
+            for (int i = 0; i < order.getShopping().size(); i++) {
+                Commodity commodity = shopMapper.queryCommodityById(order.getShopping().get(i).getCommodityId());
+                order.getShopping().get(i).setCommodityNumber(commodity.getCommodityNumber() + order.getShopping().get(i).getCommodityNumber());
+                msg = +mapper.deleteCommodityNumber(order.getShopping().get(i));
+            }
+            return Result.success(msg);
+        }
+    }
+
+    @Override
+    public Result<?> deleteOrder(int orderId) {
+        int orderMsg = mapper.deleteOrder(orderId);
+        int shoppingMsg = mapper.delectShopping(orderId);
+        if (orderMsg == 1){
+            return Result.success(shoppingMsg);
+        }else {
+            return Result.fail(500);
+        }
+
     }
 }

@@ -16,11 +16,12 @@ public interface ShopMapper {
 
     List<Shop> queryByName(String shopName);
 
-    List<Commodity> queryAllCommodity();
+    List<Commodity> queryAllCommodity(String commodityShopId);
 
     int delectCommodity(int commodityId);
 
     Commodity queryCommodityById(int commodityId);
 
+    List<Commodity> selectMenu();
 
 }

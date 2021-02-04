@@ -13,4 +13,5 @@ public class Commodity {
     private int commodityMenuId;
     private int shopMenuId;
     private String shopMenuName;
+    private String shopName;
 }

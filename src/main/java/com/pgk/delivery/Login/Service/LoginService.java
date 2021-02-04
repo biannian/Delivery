@@ -71,14 +71,15 @@ public class LoginService {
                     account.setTableAccountName("buyerAccountName");
                     break;
                 case 2:
-                    account.setTable("seller");
-                    account.setTableId("sellerId");
-                    account.setTableAccountName("sellerAccountName");
-                    break;
-                case 3:
                     account.setTable("rider");
                     account.setTableId("riderId");
                     account.setTableAccountName("riderAccountName");
+                    break;
+                case 3:
+                    account.setTable("seller");
+                    account.setTableId("sellerId");
+                    account.setTableAccountName("sellerAccountName");
+
                     break;
             }
             mapper.addInformation(account);

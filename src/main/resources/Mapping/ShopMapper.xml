@@ -92,9 +92,19 @@
         commodityPrice,
         commodityImg,
         commodityShopId,
-        commodityMenuId
+        commodityMenuId,
+        shopMenuName,
+        shopName
         FROM
         commodity
+        LEFT JOIN shopmenu ON commodityMenuId = shopMenuId
+        LEFT JOIN shop ON commodityShopId = shopId
+        <if test="commodityShopId != null">
+            where commodityShopId = #{commodityShopId}
+        </if>
+    </select>
+    <select id="selectMenu" resultType="com.pgk.delivery.Shop.Pojo.Commodity">
+        select shopMenuId,shopMenuName from shopmenu
     </select>
     <select id="queryCommodityById" resultType="com.pgk.delivery.Shop.Pojo.Commodity">
         SELECT
@@ -107,7 +117,7 @@
         commodityMenuId
         FROM
         commodity
-        where commodityId = #{commodityId}
+            where commodityId = #{commodityId}
     </select>
     <select id="queryForName" resultType="java.lang.String">
            SELECT shopName from shop WHERE

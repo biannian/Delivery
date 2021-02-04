@@ -63,8 +63,8 @@ public class ShopService implements com.pgk.delivery.Shop.Service.ShopService {
     }
 
     @Override
-    public Result<?> queryAllCommodity() {
-        List<Commodity> commodities = mapper.queryAllCommodity();
+    public Result<?> queryAllCommodity(String commodityShopId) {
+        List<Commodity> commodities = mapper.queryAllCommodity(commodityShopId);
         return Result.success(commodities);
     }
 
@@ -77,5 +77,11 @@ public class ShopService implements com.pgk.delivery.Shop.Service.ShopService {
             }
         }
         return Result.fail(-1);
+    }
+
+    @Override
+    public Result<?> selectMenu() {
+        List<Commodity> menu = mapper.selectMenu();
+        return Result.success(menu);
     }
 }

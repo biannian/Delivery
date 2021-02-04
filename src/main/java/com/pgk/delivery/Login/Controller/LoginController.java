@@ -39,7 +39,6 @@ public class LoginController {
         }
     }
 
-    @PassToken
     @RequestMapping(value = "/queryAll.do")
     public Result<?> queryAll(HttpServletRequest req) {
         Result<?> result = service.queryAll();

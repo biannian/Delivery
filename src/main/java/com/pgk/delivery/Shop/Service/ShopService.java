@@ -10,7 +10,9 @@ public interface ShopService {
 
     Result<?> queryByName(String shopName, int pageNum, int pageSize);
 
-    Result<?> queryAllCommodity();
+    Result<?> queryAllCommodity(String commodityShopId);
 
     Result<?> delectCommodity(int commodityId);
+
+    Result<?> selectMenu();
 }

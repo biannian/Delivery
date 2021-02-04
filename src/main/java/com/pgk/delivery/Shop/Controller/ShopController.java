@@ -54,20 +54,29 @@ public class ShopController {
     }
 
     @RequestMapping("/queryAllCommodity.do")
-    public Result<?> queryAllCommodity(HttpServletRequest request, HttpServletResponse response) {
+    public Result<?> queryAllCommodity(HttpServletRequest request, HttpServletResponse response,String commodityShopId) {
         int accountLimit = (int) request.getAttribute("accountLimit");
-        if (accountLimit == 4) {
-            Result<?> commoditys = service.queryAllCommodity();
-            return commoditys;
-        } else {
+        if (accountLimit == 4 ||accountLimit == 3) {
+            Result<?> commodity = service.queryAllCommodity(commodityShopId);
+            return commodity;
+        }
+        else {
             response.setStatus(403);
             return null;
         }
     }
 
+    @RequestMapping("/selectMenu.do")
+    public Result<?> selectMenu (){
+            Result<?> menu = service.selectMenu();
+            return menu;
+    }
+
+
     @RequestMapping("/delectCommodity.do")
     public Result<?> delectCommodity(int commodityId, HttpServletRequest request, HttpServletResponse response) {
         int accountLimit = (int) request.getAttribute("accountLimit");
+
         if (accountLimit == 4 || accountLimit == 2) {
             Result<?> commoditys = service.delectCommodity(commodityId);
             if (commoditys.getCode() == -1) {

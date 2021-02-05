@@ -28,4 +28,6 @@ public interface LoginMapper {
     int selectUserId(Account account);
 
     int updatePassword(Account account);
+
+    Account selectAddress(Account account);
 }

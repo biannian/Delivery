@@ -64,4 +64,7 @@ WHERE
     <select id="selectUserId" parameterType="com.pgk.delivery.Login.Pojo.Account"  resultType="java.lang.Integer">
         select ${tableId} from ${table} where ${tableAccountName} = #{accountName}
     </select>
+    <select id="selectAddress" resultType="com.pgk.delivery.Login.Pojo.Account" parameterType="java.lang.Integer">
+        select buyerName from buyer where buyerId = #{accountUserId}
+    </select>
 </mapper>

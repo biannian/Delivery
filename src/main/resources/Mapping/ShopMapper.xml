@@ -23,6 +23,16 @@
             <result column="shopMenuName" property="shopMenuName"/>
         </collection>
     </resultMap>
+    <insert id="commodityAdd" parameterType="com.pgk.delivery.Shop.Pojo.Commodity">
+        insert into commodity(
+commodityName,
+commodityShopId,
+commodityNumber,
+commodityPrice,
+commodityImg,
+commodityMenuId
+        )values (#{commodityName},#{commodityShopId},#{commodityNumber},#{commodityPrice},#{commodityImg},#{commodityMenuId})
+    </insert>
     <delete id="delectCommodity">
         delete from commodity where commodityId = #{commodityId}
     </delete>
@@ -124,4 +134,8 @@
         shopId =  #{shopId}
     </select>
 
+    <select id="queryShopName" resultType="com.pgk.delivery.Shop.Pojo.Shop">
+           SELECT shopName,shopId from shop WHERE
+        shopSellerId =  #{sellerId}
+    </select>
 </mapper>

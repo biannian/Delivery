@@ -13,4 +13,5 @@ public class Account {
     private String table;
     private String tableId;
     private String tableAccountName;
+    private String buyerName;
 }

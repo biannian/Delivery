@@ -9,7 +9,9 @@ public class Commodity {
     private int commodityShopId;
     private int commodityNumber;
     private double commodityPrice;
+
     private String commodityImg;
+
     private int commodityMenuId;
     private int shopMenuId;
     private String shopMenuName;

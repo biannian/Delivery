@@ -24,4 +24,7 @@ public interface ShopMapper {
 
     List<Commodity> selectMenu();
 
+    int commodityAdd(Commodity commodity);
+
+    Shop queryShopName(int sellerId);
 }

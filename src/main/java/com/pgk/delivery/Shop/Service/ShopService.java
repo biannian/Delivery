@@ -1,6 +1,7 @@
 package com.pgk.delivery.Shop.Service;
 
 import com.pgk.delivery.Model.Result;
+import com.pgk.delivery.Shop.Pojo.Commodity;
 import com.pgk.delivery.Shop.Pojo.Shop;
 
 public interface ShopService {
@@ -15,4 +16,8 @@ public interface ShopService {
     Result<?> delectCommodity(int commodityId);
 
     Result<?> selectMenu();
+
+    Result<?> commodityAdd(Commodity commodity);
+
+    Result<?> queryShopName(int sellerId);
 }

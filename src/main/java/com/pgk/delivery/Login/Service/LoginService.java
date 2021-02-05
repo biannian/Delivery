@@ -79,7 +79,6 @@ public class LoginService {
                     account.setTable("seller");
                     account.setTableId("sellerId");
                     account.setTableAccountName("sellerAccountName");
-
                     break;
             }
             mapper.addInformation(account);
@@ -121,5 +120,15 @@ public class LoginService {
         account.setAccountPassword(Md5.EncoderByMd5(account.getAccountPassword()));
         int msg = mapper.updatePassword(account);
         return msg;
+    }
+
+    public boolean selectAddress(Account account) {
+        Account msg = mapper.selectAddress(account);
+        if (msg == null){
+            return false;
+        }else {
+            return true;
+        }
+
     }
 }

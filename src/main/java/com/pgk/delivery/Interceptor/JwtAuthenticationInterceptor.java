@@ -21,6 +21,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+
         String token = request.getHeader("token");
 
         if (!(handler instanceof HandlerMethod)) {
@@ -42,7 +43,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
                 //登录失效了，没有taken了
                 System.out.println("登录失效，重新登录");
                 response.setStatus(ErrorCode.AUTH_ERROR.getValue());
-                return false;
+                return true;
             }
             String accountName = JWTUtil.getAudience(token);
             Account account = loginService.queryByName(accountName);

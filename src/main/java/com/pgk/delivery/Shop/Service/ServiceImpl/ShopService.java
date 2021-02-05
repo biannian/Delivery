@@ -84,4 +84,16 @@ public class ShopService implements com.pgk.delivery.Shop.Service.ShopService {
         List<Commodity> menu = mapper.selectMenu();
         return Result.success(menu);
     }
+
+    @Override
+    public Result<?> commodityAdd(Commodity commodity) {
+        int msg = mapper.commodityAdd(commodity);
+        return Result.success(msg);
+    }
+
+    @Override
+    public Result<?> queryShopName(int sellerId) {
+        Shop shop = mapper.queryShopName(sellerId);
+        return Result.success(shop);
+    }
 }

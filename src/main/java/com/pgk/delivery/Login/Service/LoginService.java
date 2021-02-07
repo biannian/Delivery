@@ -49,7 +49,7 @@ public class LoginService {
         if (account == null) {
             return Result.fail(ErrorCode.USERNAME_OR_PASSWORD_ERROR);
         } else {
-            if (account.getAccountBan() == 0) {
+            if (!account.isAccountBan()) {
                 String jwtToken = JWTUtil.createToken(accountName, account.getAccountLimit(),account.getAccountUserId());
 
                 return Result.success(jwtToken);
@@ -108,8 +108,8 @@ public class LoginService {
         return Result.fail(-1);
     }
 
-    public Result<?> accountEdit(Account account) {
-        int a = mapper.accountEdit(account);
+    public Result<?> banAccount(Account account) {
+        int a = mapper.banAccount(account);
         if (a > 0) {
             return Result.success();
         }

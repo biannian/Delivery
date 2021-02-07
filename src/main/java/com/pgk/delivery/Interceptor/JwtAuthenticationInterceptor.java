@@ -43,7 +43,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
                 //登录失效了，没有taken了
                 System.out.println("登录失效，重新登录");
                 response.setStatus(ErrorCode.AUTH_ERROR.getValue());
-                return true;
+                return false;
             }
             String accountName = JWTUtil.getAudience(token);
             Account account = loginService.queryByName(accountName);

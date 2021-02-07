@@ -16,10 +16,13 @@ INSERT INTO `order` (
 	orderState,
 	orderBuyerTime,
 	orderSellerTime,
-	orderRiderTime
+	orderRiderTime,
+	orderRiderTime1,
+	orderBuyerTime1
 )
 VALUES
-	(#{shopId}, #{orderBuyerId}, #{orderSellerId}, #{orderRiderId},#{orderState},#{orderBuyerTime},#{orderSellerTime},#{orderRiderTime})
+	(#{shopId}, #{orderBuyerId}, #{orderSellerId}, #{orderRiderId},#{orderState},
+	#{orderBuyerTime},#{orderSellerTime},#{orderRiderTime},#{orderRiderTime1},#{orderBuyerTime1})
     </insert>
 	<insert id="addShopping" parameterType="com.pgk.delivery.Order.Pojo.Shopping">
 		INSERT INTO shopping (
@@ -49,7 +52,9 @@ VALUES
 	orderState,
     orderBuyerTime,
 	orderSellerTime,
-	orderRiderTime
+	orderRiderTime,
+	orderRiderTime1,
+    orderBuyerTime1
 FROM
 	`order`
 WHERE

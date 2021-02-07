@@ -17,7 +17,6 @@ public class Shop {
     private double shopSalesVolume;
     private double shopScore;
 
-
     private List<Commodity> commodity;
 
 

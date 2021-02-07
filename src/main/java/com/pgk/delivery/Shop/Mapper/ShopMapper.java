@@ -27,4 +27,8 @@ public interface ShopMapper {
     int commodityAdd(Commodity commodity);
 
     Shop queryShopName(int sellerId);
+
+    int addMenu(String shopMenuName);
+
+    int commodityEdit(Commodity commodity);
 }

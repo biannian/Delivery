@@ -47,6 +47,7 @@ public class LoginController {
 
     @RequestMapping(value = "/getLimit.do")
     public Result<?> getLimit(HttpServletRequest req) {
+
         int accountLimit = (int) req.getAttribute("accountLimit");
         int accountUserId = (int) req.getAttribute("accountUserId");
         String accountName = (String) req.getAttribute("accountName");
@@ -71,11 +72,11 @@ public class LoginController {
         return Result.fail(-1);
     }
 
-    @RequestMapping(value = "/accountEdit.do")
-    public Result<?> accountEdit(HttpServletRequest req, Account account, HttpServletResponse response) {
+    @RequestMapping(value = "/banAccount.do")
+    public Result<?> banAccount(HttpServletRequest req, Account account, HttpServletResponse response) {
         int accountLimit = (int) req.getAttribute("accountLimit");
         if (accountLimit == 4) {
-            Result<?> result = service.accountEdit(account);
+            Result<?> result = service.banAccount(account);
             if (result.getCode() == -1) {
                 response.setStatus(500);
                 return null;
@@ -103,6 +104,11 @@ public class LoginController {
         return Result.success(msg);
     }
 
+    /**
+     * 查看是否存到收货地址
+     * @param account
+     * @return
+     */
     @RequestMapping(value = "/selectAddress.do")
     public Result<?> selectAddress(Account account) {
         boolean msg = service.selectAddress(account);

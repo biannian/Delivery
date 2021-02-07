@@ -26,7 +26,6 @@ public class ShopController {
     @RequestMapping("/queryAll.do")
     public Result<?> queryAll(int pageNum, int pageSize, HttpServletRequest request, HttpServletResponse response) {
         int accountLimit = (int) request.getAttribute("accountLimit");
-
         if (accountLimit == 1) {
             Result<?> shops = service.queryAll(pageNum, pageSize);
             return shops;
@@ -73,17 +72,34 @@ public class ShopController {
         }
     }
 
+    /**
+     * 每次添加商品时的种类选项查询
+     * @return
+     */
     @RequestMapping("/selectMenu.do")
     public Result<?> selectMenu (){
             Result<?> menu = service.selectMenu();
             return menu;
     }
+    @RequestMapping("/addMenu.do")
+    public Result<?> addMenu (String shopMenuName){
+        Result<?> menu = service.addMenu(shopMenuName);
+        return menu;
+    }
+
 
     @RequestMapping("/commodityAdd.do")
     public Result<?> commodityAdd (@RequestBody Commodity commodity){
        Result<?> msg = service.commodityAdd(commodity);
         return msg;
     }
+
+    @RequestMapping("/commodityEdit.do")
+    public Result<?> commodityEdit (@RequestBody Commodity commodity){
+        Result<?> msg = service.commodityEdit(commodity);
+        return msg;
+    }
+
 
     @RequestMapping("/queryShopName.do")
     public Result<?> queryShopName (int sellerId){
@@ -94,12 +110,13 @@ public class ShopController {
 
     @RequestMapping("/pictureDelete.do")
 public Result<?> pictureDelete (String path){
+        path = path.replace("http://localhost:8087/picture/","");
+        path = "D:/IdeaProject/Delivery/src/main/resources/static/picture/"+path;
         File file = new File(path);
         if (file.exists()) {//文件是否存在
             if (file.delete()) {//存在就删了
                 return Result.success();
             } else {
-
                 return Result.fail();
             }
         } else {

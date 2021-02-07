@@ -32,17 +32,25 @@ public class Order {
      */
     private int orderState;
     /**
-     * 下单时间
+     * 用户下单时间
      */
     private String orderBuyerTime;
     /**
-     * 收货时间
+     * 用户确认收货时间
+     */
+    private String orderBuyerTime1;
+    /**
+     * 商家确认订单时间
      */
     private String orderSellerTime;
     /**
-     * 送达时间
+     * 骑手取货时间
      */
     private String orderRiderTime;
+    /**
+     * 骑手送达时间
+     */
+    private String orderRiderTime1;
     /**
      * 存放商品的集合
      */

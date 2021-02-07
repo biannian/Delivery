@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pgk.delivery.Login.Mapper.LoginMapper">
-    <update id="accountEdit" parameterType="com.pgk.delivery.Login.Pojo.Account">
+    <update id="banAccount" parameterType="com.pgk.delivery.Login.Pojo.Account">
         UPDATE account
         SET accountBan = #{accountBan}
         WHERE
@@ -37,7 +37,6 @@ WHERE
     <select id="queryAll" resultType="com.pgk.delivery.Login.Pojo.Account">
         SELECT
         accountName,
-        accountPassword,
         accountLimit,
         accountBan,
         accountId

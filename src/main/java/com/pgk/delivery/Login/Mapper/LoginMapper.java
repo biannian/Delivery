@@ -21,7 +21,7 @@ public interface LoginMapper {
 
     int accountDelete(int accountId);
 
-    int accountEdit(Account account);
+    int banAccount(Account account);
 
     int addInformation (Account account);
 

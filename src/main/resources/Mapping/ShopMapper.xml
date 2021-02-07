@@ -33,6 +33,19 @@ commodityImg,
 commodityMenuId
         )values (#{commodityName},#{commodityShopId},#{commodityNumber},#{commodityPrice},#{commodityImg},#{commodityMenuId})
     </insert>
+    <insert id="addMenu" parameterType="com.pgk.delivery.Shop.Pojo.Commodity">
+insert into shopmenu (shopMenuName) values (#{shopMenuName})
+ </insert>
+    <update id="commodityEdit">
+  update commodity set
+commodityName = #{commodityName},
+commodityShopId = #{commodityShopId} ,
+commodityNumber = #{commodityNumber},
+commodityPrice =#{commodityPrice} ,
+commodityImg = #{commodityImg} ,
+commodityMenuId = #{commodityMenuId}
+where commodityId = #{commodityId}
+    </update>
     <delete id="delectCommodity">
         delete from commodity where commodityId = #{commodityId}
     </delete>

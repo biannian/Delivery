@@ -2,6 +2,7 @@ package com.pgk.delivery.Shop.Service;
 
 import com.pgk.delivery.Model.Result;
 import com.pgk.delivery.Shop.Pojo.Commodity;
+import com.pgk.delivery.Shop.Pojo.Shop;
 
 public interface ShopService {
     Result<?> queryAll(int pageNum, int pageSize);
@@ -10,7 +11,7 @@ public interface ShopService {
 
     Result<?> queryByName(String shopName, int pageNum, int pageSize);
 
-    Result<?> queryAllCommodity(String commodityShopId);
+    Result<?> queryAllCommodity(Integer accountUserId);
 
     Result<?> delectCommodity(int commodityId);
 
@@ -23,4 +24,8 @@ public interface ShopService {
     Result<?> addMenu(String shopMenuName);
 
     Result<?> commodityEdit(Commodity commodity);
+
+    Result<?> selectShopInformation(int sellerId);
+
+    Result<?> updateShopInformation(Shop shop);
 }

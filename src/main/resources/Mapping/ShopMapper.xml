@@ -36,7 +36,25 @@ commodityMenuId
     <insert id="addMenu" parameterType="com.pgk.delivery.Shop.Pojo.Commodity">
 insert into shopmenu (shopMenuName) values (#{shopMenuName})
  </insert>
-    <update id="commodityEdit">
+    <insert id="addShop" parameterType="com.pgk.delivery.Shop.Pojo.Shop">
+INSERT INTO shop (
+	shopName,
+	shopImg,
+	shopSellerId,
+	shopAddress,
+	shopStartPrice,
+	shopSendPrice
+)
+VALUES(
+    #{shopName},
+	#{shopImg},
+	#{shopSellerId},
+	#{shopAddress},
+	#{shopStartPrice},
+	#{shopSendPrice}
+)
+    </insert>
+    <update id="commodityEdit" parameterType="com.pgk.delivery.Shop.Pojo.Commodity">
   update commodity set
 commodityName = #{commodityName},
 commodityShopId = #{commodityShopId} ,
@@ -45,6 +63,17 @@ commodityPrice =#{commodityPrice} ,
 commodityImg = #{commodityImg} ,
 commodityMenuId = #{commodityMenuId}
 where commodityId = #{commodityId}
+    </update>
+    <update id="updateShopInformation">
+update shop set
+	shopName = #{shopName},
+	shopImg =#{shopImg},
+	shopSellerId = #{shopSellerId},
+	shopAddress = #{shopAddress},
+	shopStartPrice = #{shopStartPrice},
+	shopSendPrice =#{shopSendPrice}
+WHERE
+    shopSellerId = #{shopSellerId}
     </update>
     <delete id="delectCommodity">
         delete from commodity where commodityId = #{commodityId}
@@ -107,7 +136,7 @@ where commodityId = #{commodityId}
         WHERE
         shopName LIKE "%" #{shopName}"%"
     </select>
-    <select id="queryAllCommodity" resultType="com.pgk.delivery.Shop.Pojo.Commodity">
+    <select id="queryAllCommodity" parameterType="java.lang.Integer" resultType="com.pgk.delivery.Shop.Pojo.Commodity">
         SELECT
         commodityId,
         commodityName,
@@ -146,9 +175,22 @@ where commodityId = #{commodityId}
            SELECT shopName from shop WHERE
         shopId =  #{shopId}
     </select>
-
     <select id="queryShopName" resultType="com.pgk.delivery.Shop.Pojo.Shop">
            SELECT shopName,shopId from shop WHERE
         shopSellerId =  #{sellerId}
+    </select>
+    <select id="selectShopInformation" resultType="com.pgk.delivery.Shop.Pojo.Shop">
+SELECT
+	shopId,
+	shopName,
+	shopImg,
+	shopSellerId,
+	shopAddress,
+	shopStartPrice,
+	shopSendPrice
+FROM
+	shop
+WHERE
+    shopSellerId = #{accountUserId}
     </select>
 </mapper>

@@ -16,4 +16,9 @@ public class Commodity {
     private int shopMenuId;
     private String shopMenuName;
     private String shopName;
+
+    /**
+     * 相当于sellerId
+     */
+    private int accountUserId;
 }

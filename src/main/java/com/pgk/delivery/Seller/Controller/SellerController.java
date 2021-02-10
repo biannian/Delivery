@@ -3,6 +3,7 @@ package com.pgk.delivery.Seller.Controller;
 
 import com.pgk.delivery.Buyer.Pojo.Buyer;
 import com.pgk.delivery.Model.Result;
+import com.pgk.delivery.Seller.Pojo.Seller;
 import com.pgk.delivery.Seller.Service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,8 @@ public class SellerController {
         return msg;
     }
     @RequestMapping("/updateSellerAddress.do")
-    public Result<?> updateSellerAddress(@RequestBody Buyer buyer){
-        Result<?> msg = service.updateSellerAddress(buyer);
+    public Result<?> updateSellerAddress(@RequestBody Seller seller){
+        Result<?> msg = service.updateSellerAddress(seller);
         return msg;
     }
 

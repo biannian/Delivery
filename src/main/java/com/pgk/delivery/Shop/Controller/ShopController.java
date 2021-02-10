@@ -2,6 +2,7 @@ package com.pgk.delivery.Shop.Controller;
 
 import com.pgk.delivery.Model.Result;
 import com.pgk.delivery.Shop.Pojo.Commodity;
+import com.pgk.delivery.Shop.Pojo.Shop;
 import com.pgk.delivery.Shop.Service.ShopService;
 import com.pgk.delivery.Util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +61,12 @@ public class ShopController {
     }
 
     @RequestMapping("/queryAllCommodity.do")
-    public Result<?> queryAllCommodity(HttpServletRequest request, HttpServletResponse response,String commodityShopId) {
+    public Result<?> queryAllCommodity(HttpServletRequest request, HttpServletResponse response, Integer accountUserId) {
         int accountLimit = (int) request.getAttribute("accountLimit");
-        if (accountLimit == 4 ||accountLimit == 3) {
-            Result<?> commodity = service.queryAllCommodity(commodityShopId);
+        if (accountLimit == 4 || accountLimit == 3) {
+            Result<?> commodity = service.queryAllCommodity(accountUserId);
             return commodity;
-        }
-        else {
+        } else {
             response.setStatus(403);
             return null;
         }
@@ -74,44 +74,73 @@ public class ShopController {
 
     /**
      * 每次添加商品时的种类选项查询
+     *
      * @return
      */
     @RequestMapping("/selectMenu.do")
-    public Result<?> selectMenu (){
-            Result<?> menu = service.selectMenu();
-            return menu;
+    public Result<?> selectMenu() {
+        Result<?> menu = service.selectMenu();
+        return menu;
     }
+
     @RequestMapping("/addMenu.do")
-    public Result<?> addMenu (String shopMenuName){
+    public Result<?> addMenu(String shopMenuName) {
         Result<?> menu = service.addMenu(shopMenuName);
         return menu;
     }
 
 
     @RequestMapping("/commodityAdd.do")
-    public Result<?> commodityAdd (@RequestBody Commodity commodity){
-       Result<?> msg = service.commodityAdd(commodity);
+    public Result<?> commodityAdd(@RequestBody Commodity commodity) {
+        Result<?> msg = service.commodityAdd(commodity);
         return msg;
     }
 
     @RequestMapping("/commodityEdit.do")
-    public Result<?> commodityEdit (@RequestBody Commodity commodity){
+    public Result<?> commodityEdit(@RequestBody Commodity commodity) {
         Result<?> msg = service.commodityEdit(commodity);
         return msg;
     }
 
-
+    /**
+     * 查询店铺名
+     *
+     * @param sellerId
+     * @return
+     */
     @RequestMapping("/queryShopName.do")
-    public Result<?> queryShopName (int sellerId){
+    public Result<?> queryShopName(int sellerId) {
         Result<?> msg = service.queryShopName(sellerId);
         return msg;
     }
 
+    /**
+     * 查询店铺信息
+     *
+     * @param sellerId
+     * @return
+     */
+    @RequestMapping("/selectShopInformation.do")
+    public Result<?> selectShopInformation(int sellerId) {
+        Result<?> shop = service.selectShopInformation(sellerId);
+        return shop;
+    }
+
+    /**
+     * 修改店铺信息
+     * @param shop
+     * @return
+     */
+    @RequestMapping("/updateShopInformation.do")
+    public Result<?> updateShopInformation(@RequestBody Shop shop) {
+        Result<?> msg = service.updateShopInformation(shop);
+        return msg;
+    }
 
     @RequestMapping("/pictureDelete.do")
-public Result<?> pictureDelete (String path){
-        path = path.replace("http://localhost:8087/picture/","");
-        path = "D:/IdeaProject/Delivery/src/main/resources/static/picture/"+path;
+    public Result<?> pictureDelete(String path) {
+        path = path.replace("http://localhost:8087/picture/", "");
+        path = "D:/IdeaProject/Delivery/src/main/resources/static/picture/" + path;
         File file = new File(path);
         if (file.exists()) {//文件是否存在
             if (file.delete()) {//存在就删了
@@ -123,12 +152,11 @@ public Result<?> pictureDelete (String path){
             System.out.println("文件不存在");
             return Result.fail();
         }
-
     }
 
     @RequestMapping("/pictureAdd.do")
-    public Result<?> pictureAdd (@RequestParam("picture") MultipartFile picture){
-        String path ="D:/IdeaProject/Delivery/src/main/resources/static/picture";
+    public Result<?> pictureAdd(@RequestParam("picture") MultipartFile picture) {
+        String path = "D:/IdeaProject/Delivery/src/main/resources/static/picture";
         File filePath = new File(path);
         //如果目录不存在，创建目录
         if (!filePath.exists() && !filePath.isDirectory()) {
@@ -141,21 +169,20 @@ public Result<?> pictureDelete (String path){
         //获取文件名称（不包含格式）
         String name = originalFileName.substring(0, originalFileName.lastIndexOf("."));
         //新名字
-        String fileName = UUIDUtils.getUUID()  + "." + type;
+        String fileName = UUIDUtils.getUUID() + "." + type;
         //在指定路径下创建一个文件
         File targetFile = new File(path, fileName);
         //将文件保存到服务器指定位置
         try {
             picture.transferTo(targetFile);
             //将文件在服务器的存储路径返回
-            return Result.success("http://localhost:8087/picture/"+fileName);
+            return Result.success("http://localhost:8087/picture/" + fileName);
         } catch (IOException e) {
             e.printStackTrace();
             return Result.fail();
         }
 
     }
-
 
 
     @RequestMapping("/delectCommodity.do")
@@ -174,8 +201,6 @@ public Result<?> pictureDelete (String path){
             return null;
         }
     }
-
-
 
 
 }

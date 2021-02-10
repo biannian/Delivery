@@ -12,4 +12,8 @@ public interface OrderService {
     Result<?> updateState(Order order);
 
     Result<?> deleteOrder(int orderId);
+
+    Result<?> sellerSelectOrder(int accountUserId);
+
+    Result<?> sellerSelectOrderById(int accountUserId);
 }

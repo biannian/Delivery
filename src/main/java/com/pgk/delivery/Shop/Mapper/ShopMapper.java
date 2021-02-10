@@ -16,7 +16,7 @@ public interface ShopMapper {
 
     List<Shop> queryByName(String shopName);
 
-    List<Commodity> queryAllCommodity(String commodityShopId);
+    List<Commodity> queryAllCommodity(Integer commodityShopId);
 
     int delectCommodity(int commodityId);
 
@@ -31,4 +31,10 @@ public interface ShopMapper {
     int addMenu(String shopMenuName);
 
     int commodityEdit(Commodity commodity);
+
+    Shop selectShopInformation(int accountUserId);
+
+    int updateShopInformation(Shop shop);
+
+    int addShop(Shop shop);
 }

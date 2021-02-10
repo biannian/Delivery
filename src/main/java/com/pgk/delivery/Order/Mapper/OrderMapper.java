@@ -37,10 +37,10 @@ public interface OrderMapper {
     /**
      * 查询订单
      *
-     * @param orderBuyerId
+     * @param order
      * @return
      */
-    List<Order> selectOrder(String orderBuyerId);
+    List<Order> selectOrder(Order order);
 
     /**
      * 根据订单编号查询购买的商品

@@ -25,8 +25,8 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Result<?> updateSellerAddress(Buyer buyer) {
-        int msg = mapper.updateSellerAddress(buyer);
+    public Result<?> updateSellerAddress(Seller seller) {
+        int msg = mapper.updateSellerAddress(seller);
         return Result.success(msg);
 
     }

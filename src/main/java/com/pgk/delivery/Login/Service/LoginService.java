@@ -45,7 +45,6 @@ public class LoginService {
     public Result<?> login(String accountName, String accountPassword) {
 
         Account account = mapper.login(accountName, Md5.EncoderByMd5(accountPassword));
-        System.out.println(account);
         if (account == null) {
             return Result.fail(ErrorCode.USERNAME_OR_PASSWORD_ERROR);
         } else {

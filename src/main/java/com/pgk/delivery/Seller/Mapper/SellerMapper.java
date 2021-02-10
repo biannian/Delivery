@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SellerMapper {
     Seller getSellerAddress(String accountName);
 
-    int updateSellerAddress(Buyer buyer);
+    int updateSellerAddress(Seller seller);
 }

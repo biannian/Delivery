@@ -1,6 +1,5 @@
 package com.pgk.delivery.Order.Pojo;
 
-import com.pgk.delivery.Shop.Pojo.Shop;
 import lombok.Data;
 
 import java.util.List;
@@ -19,10 +18,6 @@ public class Order {
      * 买家用户名
      */
     private String orderBuyerId;
-    /**
-     * 卖家用户名
-     */
-    private String orderSellerId;
     /**
      * 骑手用户名
      */
@@ -55,4 +50,9 @@ public class Order {
      * 存放商品的集合
      */
     private List<Shopping> shopping;
+
+    /**
+     * 是否将订单状态码当作查询条件
+     */
+    private boolean stateOpen;
 }

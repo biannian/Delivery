@@ -11,7 +11,6 @@
 INSERT INTO `order` (
 	shopId,
 	orderBuyerId,
-	orderSellerId,
 	orderRiderId,
 	orderState,
 	orderBuyerTime,
@@ -21,7 +20,7 @@ INSERT INTO `order` (
 	orderBuyerTime1
 )
 VALUES
-	(#{shopId}, #{orderBuyerId}, #{orderSellerId}, #{orderRiderId},#{orderState},
+	(#{shopId}, #{orderBuyerId}, #{orderRiderId},#{orderState},
 	#{orderBuyerTime},#{orderSellerTime},#{orderRiderTime},#{orderRiderTime1},#{orderBuyerTime1})
     </insert>
 	<insert id="addShopping" parameterType="com.pgk.delivery.Order.Pojo.Shopping">
@@ -47,7 +46,6 @@ VALUES
 	orderId,
 	shopId,
 	orderBuyerId,
-	orderSellerId,
 	orderRiderId,
 	orderState,
     orderBuyerTime,
@@ -57,8 +55,15 @@ VALUES
     orderBuyerTime1
 FROM
 	`order`
-WHERE
-	orderBuyerId = #{orderBuyerId}
+<if test="orderBuyerId != null">
+	where orderBuyerId = #{orderBuyerId}
+</if>
+<if test="shopId != 0">
+	where shopId = #{shopId}
+</if>
+<if test="stateOpen">
+	AND orderState = #{orderState}
+</if>
 	</select>
 	<select id="selectShopping" parameterType="java.lang.Integer" resultMap="shopping">
 SELECT

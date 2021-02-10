@@ -112,6 +112,7 @@ public class LoginController {
     @RequestMapping(value = "/selectAddress.do")
     public Result<?> selectAddress(Account account) {
         boolean msg = service.selectAddress(account);
+
         return Result.success(msg);
     }
 }

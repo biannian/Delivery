@@ -1,11 +1,15 @@
 package com.pgk.delivery.Order.Service.ServiceImpl;
 
+import com.pgk.delivery.Buyer.Mapper.BuyerMapper;
+import com.pgk.delivery.Buyer.Pojo.Buyer;
 import com.pgk.delivery.Model.Result;
 import com.pgk.delivery.Order.Mapper.OrderMapper;
 import com.pgk.delivery.Order.Pojo.Order;
 import com.pgk.delivery.Order.Pojo.Shopping;
 import com.pgk.delivery.Shop.Mapper.ShopMapper;
 import com.pgk.delivery.Shop.Pojo.Commodity;
+import com.pgk.delivery.Shop.Pojo.Shop;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +19,17 @@ import java.util.List;
 
 
 @Service
-public class OrderService implements com.pgk.delivery.Order.Service.OrderService {
+public class   OrderService implements com.pgk.delivery.Order.Service.OrderService {
 
     @Autowired
     private OrderMapper mapper;
 
     @Autowired
     private ShopMapper shopMapper;
+
+    @Autowired
+    private BuyerMapper buyerMapper;
+
 
     @Override
     public Result<?> addOrder(Order order) {
@@ -43,7 +51,9 @@ public class OrderService implements com.pgk.delivery.Order.Service.OrderService
 
     @Override
     public Result<?> selectOrder(String orderBuyerId) {
-        List<Order> orders = mapper.selectOrder(orderBuyerId);
+        Order order = new Order();
+        order.setOrderBuyerId(orderBuyerId);
+        List<Order> orders = mapper.selectOrder(order);
 
         List<List<Shopping>> shoppings = new ArrayList<>();
         HashMap<Integer, String> shops = new HashMap<>();
@@ -88,5 +98,38 @@ public class OrderService implements com.pgk.delivery.Order.Service.OrderService
             return Result.fail(500);
         }
 
+    }
+
+    @Override
+    public Result<?> sellerSelectOrder(int accountUserId) {
+        Order order = new Order();
+        Shop shop = shopMapper.selectShopInformation(accountUserId);
+        order.setShopId(shop.getShopId());
+        List<Order> Orders = mapper.selectOrder(order);
+        return Result.success(Orders);
+    }
+
+    @Override
+    public Result<?> sellerSelectOrderById(int accountUserId) {
+        Order order = new Order();
+        Shop shop = shopMapper.selectShopInformation(accountUserId);
+        order.setShopId(shop.getShopId());
+        //把实体中的是否将订单状态码当作查询条件 设为true
+        order.setStateOpen(true);
+        //根据店铺Id 查询订单
+        List<Order> Orders = mapper.selectOrder(order);
+        //实例一个存放商品的集合
+        List<List<Shopping>> shoppings = new ArrayList<>();
+        //实例一个存放用户地址的集合
+        List<Buyer> buyers = new ArrayList<>();
+        for (int i = 0; i <Orders.size() ; i++) {
+            shoppings.add( mapper.selectShopping(Orders.get(i).getOrderId()));
+            buyers.add(buyerMapper.getBuyerAddress(Orders.get(i).getOrderBuyerId()));
+        }
+        HashMap<String, Object> orderMap = new HashMap<>();
+        orderMap.put("buyers",buyers);
+        orderMap.put("shoppings",shoppings);
+        orderMap.put("Orders",Orders);
+        return Result.success(orderMap);
     }
 }

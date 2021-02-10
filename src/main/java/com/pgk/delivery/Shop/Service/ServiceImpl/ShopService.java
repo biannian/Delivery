@@ -3,6 +3,7 @@ package com.pgk.delivery.Shop.Service.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pgk.delivery.Model.Result;
+import com.pgk.delivery.Seller.Pojo.Seller;
 import com.pgk.delivery.Shop.Mapper.ShopMapper;
 import com.pgk.delivery.Shop.Pojo.Commodity;
 import com.pgk.delivery.Shop.Pojo.Shop;
@@ -63,9 +64,19 @@ public class ShopService implements com.pgk.delivery.Shop.Service.ShopService {
     }
 
     @Override
-    public Result<?> queryAllCommodity(String commodityShopId) {
-        List<Commodity> commodities = mapper.queryAllCommodity(commodityShopId);
-        return Result.success(commodities);
+    public Result<?> queryAllCommodity(Integer accountUserId) {
+        if (accountUserId != null){
+            Shop shop = mapper.selectShopInformation(accountUserId);
+            if (shop ==null){
+                return Result.fail();
+            }else {
+                List<Commodity> commodities = mapper.queryAllCommodity(shop.getShopId());
+                return Result.success(commodities);
+            }
+        }else {
+            List<Commodity> commodities = mapper.queryAllCommodity(accountUserId);
+            return Result.success(commodities);
+        }
     }
 
     @Override
@@ -87,6 +98,10 @@ public class ShopService implements com.pgk.delivery.Shop.Service.ShopService {
 
     @Override
     public Result<?> commodityAdd(Commodity commodity) {
+        //根据sellerId 查询店铺信息，查询出店铺Id
+        Shop shop = mapper.selectShopInformation(commodity.getAccountUserId());
+        //设置商品里的店铺id
+        commodity.setCommodityShopId(shop.getShopId());
         int msg = mapper.commodityAdd(commodity);
         return Result.success(msg);
     }
@@ -108,5 +123,21 @@ public class ShopService implements com.pgk.delivery.Shop.Service.ShopService {
     public Result<?> commodityEdit(Commodity commodity) {
         int msg = mapper.commodityEdit(commodity);
         return Result.success(msg);
+    }
+
+    @Override
+    public Result<?> selectShopInformation(int sellerId) {
+        Shop shop = mapper.selectShopInformation(sellerId);
+        return Result.success(shop);
+    }
+
+    @Override
+    public Result<?> updateShopInformation(Shop shop) {
+        if(shop.getShopId() == 0){
+            int msg = mapper.addShop(shop);
+            return Result.success(msg);
+        }else {
+        int msg =mapper.updateShopInformation(shop);
+        return Result.success(msg);}
     }
 }

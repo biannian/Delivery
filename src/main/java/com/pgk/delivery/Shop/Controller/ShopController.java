@@ -4,18 +4,21 @@ import com.pgk.delivery.Model.Result;
 import com.pgk.delivery.Shop.Pojo.Commodity;
 import com.pgk.delivery.Shop.Pojo.Shop;
 import com.pgk.delivery.Shop.Service.ShopService;
+import com.pgk.delivery.Util.ExcelUtil;
 import com.pgk.delivery.Util.UUIDUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @RestController
 @RequestMapping("/shop")
@@ -137,6 +140,67 @@ public class ShopController {
         return msg;
     }
 
+    /**
+     * 导出excel表格
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/exportExcel.do")
+    public void  exportExcel(HttpServletResponse response,int accountUserId)throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //获取数据
+        List<Commodity> commodities = (List<Commodity>) service.queryAllCommodity(accountUserId).getResult();
+        //excel标题
+//        String[] title = {"用户Id", "商品Id", "commodityImg", "commodityMenuId", "commodityName"
+//                ,"commodityNumber","commodityPrice","commodityShopId","shopMenuId","shopMenuName","shopName"};
+        String[] title = {"商品编号","商品名","商品库存","商品价格","商品种类"};
+        //excel文件名
+        String fileName = "商品表" + System.currentTimeMillis() + ".xls";
+        //sheet名
+        String sheetName = "商品信息表";
+        String content[][] = new String[commodities.size()][title.length];
+        for (int i = 0; i < commodities.size(); i++) {
+            Commodity obj = commodities.get(i);
+            content[i][0] = String.valueOf(obj.getCommodityId());
+            content[i][1] = obj.getCommodityName();
+            content[i][2] = String.valueOf(obj.getCommodityNumber());
+            content[i][3] = String.valueOf(obj.getCommodityPrice());
+            content[i][4] =obj.getShopMenuName();
+        }
+        //创建HSSFWorkbook
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, content, null);
+        //响应到客户端
+        try {
+            this.setResponseHeader(response, fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //发送响应流方法
+    public void setResponseHeader(HttpServletResponse response, String fileName) {
+        try {
+            try {
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            response.setContentType("application/octet-stream;charset=ISO8859-1");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.addHeader("Pargam", "no-cache");
+            response.addHeader("Cache-Control", "no-cache");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
     @RequestMapping("/pictureDelete.do")
     public Result<?> pictureDelete(String path) {
         path = path.replace("http://localhost:8087/picture/", "");
@@ -183,12 +247,10 @@ public class ShopController {
         }
 
     }
-
-
+    
     @RequestMapping("/delectCommodity.do")
     public Result<?> delectCommodity(int commodityId, HttpServletRequest request, HttpServletResponse response) {
         int accountLimit = (int) request.getAttribute("accountLimit");
-
         if (accountLimit == 4 || accountLimit == 3) {
             Result<?> commoditys = service.delectCommodity(commodityId);
             if (commoditys.getCode() == -1) {

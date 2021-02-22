@@ -79,6 +79,6 @@ WHERE
 	shoppingOrderId = #{shoppingOrderId}
 	</select>
 	<update id="updateState" parameterType="com.pgk.delivery.Order.Pojo.Order">
-	update `order` set orderState=#{orderState} where orderId = #{orderId}
+	update `order` set orderState=#{orderState},orderSellerTime=#{orderSellerTime} where orderId = #{orderId}
 	</update>
 </mapper>

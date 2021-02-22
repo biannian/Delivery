@@ -245,7 +245,6 @@ public class ShopController {
             e.printStackTrace();
             return Result.fail();
         }
-
     }
     
     @RequestMapping("/delectCommodity.do")

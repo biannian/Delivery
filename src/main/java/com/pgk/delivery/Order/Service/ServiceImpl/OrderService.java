@@ -8,8 +8,7 @@ import com.pgk.delivery.Order.Pojo.Order;
 import com.pgk.delivery.Order.Pojo.Shopping;
 import com.pgk.delivery.Shop.Mapper.ShopMapper;
 import com.pgk.delivery.Shop.Pojo.Commodity;
-import com.pgk.delivery.Shop.Pojo.Shop;
-import org.aspectj.weaver.ast.Or;
+import com.pgk.delivery.Shop.Pojo.Shop; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -20,7 +20,6 @@ public class OrderController {
         Result<?> msg = service.addOrder(order);
         return msg;
     }
-
     /**
      *
      * @param orderBuyerId
